@@ -7,3 +7,17 @@ body {
 h1 {
     color: blue;
 }
+.button {
+    display: inline-block;
+    padding: 12px 20px;
+    margin: 10px;
+    background-color: blue;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-family: Arial;
+}
+
+.button:hover {
+    background-color: darkblue;
+}
