@@ -24,19 +24,39 @@ h1 {
 
 //Navigation button
 
+body {
+    margin: 0;
+    font-family: Arial;
+}
+
+/* Layout container */
+.container {
+    display: flex;
+}
+
+/* Sidebar */
 nav {
-    background-color: #333;
-    padding: 15px;
-    text-align: left;
+    width: 200px;
+    height: 100vh;
+    background-color: #333;
+    padding-top: 20px;
 }
 
+/* Links inside sidebar */
 nav a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-    font-weight: bold;
+    display: block;
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
 }
 
+/* Hover effect */
 nav a:hover {
-    text-decoration: underline;
+    background-color: #575757;
+}
+
+/* Main content area */
+main {
+    flex: 1;
+    padding: 20px;
 }
