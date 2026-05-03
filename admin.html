@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Guest List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="admin.html">Admin</a>
+        </nav>
+
+        <main>
+            <h1>Admin Guest List</h1>
+
+            <h2>Login</h2>
+            <input type="email" id="email" placeholder="Admin email">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+
+            <p id="status"></p>
+
+            <h2>Guests</h2>
+            <textarea id="guestList" rows="15" cols="60" readonly></textarea>
+        </main>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+    const supabaseClient = supabase.createClient(
+        "https://kjkdpwiuurrffvddcdrn.supabase.co",
+        "sb_publishable_WrkSdWLLjfkXS2elb-DRIg_F8WEFeca"
+    );
+
+    async function login() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const { error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            document.getElementById("status").innerText = "Login failed: " + error.message;
+        } else {
+            document.getElementById("status").innerText = "Logged in!";
+            loadGuests();
+        }
+    }
+
+    async function loadGuests() {
+        const { data, error } = await supabaseClient
+            .from("guests")
+            .select("guest_name, meal_choice, dietary_notes, created_at")
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            document.getElementById("guestList").value = "Error: " + error.message;
+            return;
+        }
+
+        const guestText = data.map(guest =>
+            guest.guest_name + " - " + guest.meal_choice
+        ).join("\n");
+
+        document.getElementById("guestList").value = guestText;
+    }
+    </script>
+</body>
+</html>
