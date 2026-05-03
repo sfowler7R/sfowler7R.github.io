@@ -1,56 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My First Website</title>
-    <link rel="stylesheet" href="style.css">
+    <title>My First Website</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
-const supabaseClient = supabase.createClient(
-  "https://kjkdpwiuurrffvddcdrn.supabase.co/rest/v1/",
-  "sb_publishable_WrkSdWLLjfkXS2elb-DRIg_F8WEFeca"
-);
-
-async function submitGuest() {
-  const name = document.getElementById("name").value;
-  const meal = document.querySelector('input[name="meal"]:checked');
-
-  if (!name || !meal) {
-    alert("Please enter name and choose a meal");
-    return;
-  }
-
-  const { error } = await supabaseClient
-    .from("guests")
-    .insert([
-      {
-        guest_name: name,
-        meal_choice: meal.value
-      }
-    ]);
-
-  if (error) {
-    alert("Error: " + error.message);
-  } else {
-    alert("Submitted!");
-  }
-}
-</script>
 <body>
-    <div class="container">
-        
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="Guests.html">Guests</a>
-        </nav>
+    <div class="container">
+        
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="Guests.html">Guests</a>
+        </nav>
 
-        <main>
-            <h1>Welcome</h1>
-            <p>This is my homepage.</p>
-        </main>
+        <main>
+            <h1>Meal Choice</h1>
 
-    </div>
+            <input type="text" id="name" placeholder="Your name">
+
+            <p>Choose your meal:</p>
+
+            <label>
+                <input type="radio" name="meal" value="Chicken"> Chicken
+            </label>
+
+            <label>
+                <input type="radio" name="meal" value="Beef"> Beef
+            </label>
+
+            <br><br>
+
+            <button onclick="submitGuest()">Submit</button>
+        </main>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+    const supabaseClient = supabase.createClient(
+        "https://kjkdpwiuurrffvddcdrn.supabase.co",
+        "sb_publishable_WrkSdWLLjfkXS2elb-DRIg_F8WEFeca"
+    );
+
+    async function submitGuest() {
+        const name = document.getElementById("name").value;
+        const meal = document.querySelector('input[name="meal"]:checked');
+
+        if (!name || !meal) {
+            alert("Please enter name and choose a meal");
+            return;
+        }
+
+        const { error } = await supabaseClient
+            .from("guests")
+            .insert([
+                {
+                    guest_name: name,
+                    meal_choice: meal.value
+                }
+            ]);
+
+        if (error) {
+            alert("Error: " + error.message);
+        } else {
+            alert("Submitted!");
+        }
+    }
+    </script>
 </body>
 </html>
 
