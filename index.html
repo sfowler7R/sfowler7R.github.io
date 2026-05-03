@@ -4,6 +4,55 @@
     <title>My First Website</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+const supabase = supabase.createClient(
+  "https://kjkdpwiuurrffvddcdrn.supabase.co/rest/v1/",
+  "sb_publishable_WrkSdWLLjfkXS2elb-DRIg_F8WEFeca"
+);
+</script>
+    <input type="text" id="name" placeholder="Your name">
+
+<label>
+  <input type="radio" name="meal" value="Chicken"> Chicken
+</label>
+
+<label>
+  <input type="radio" name="meal" value="Beef"> Beef
+</label>
+
+<br><br>
+
+<button onclick="submitGuest()">Submit</button>
+
+    <script>
+async function submitGuest() {
+  const name = document.getElementById("name").value;
+  const meal = document.querySelector('input[name="meal"]:checked');
+
+  if (!name || !meal) {
+    alert("Please enter name and choose a meal");
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("guests")
+    .insert([
+      {
+        guest_name: name,
+        meal_choice: meal.value
+      }
+    ]);
+
+  if (error) {
+    alert("Error: " + error.message);
+  } else {
+    alert("Submitted!");
+  }
+}
+
+    
 <body>
     <div class="container">
         
